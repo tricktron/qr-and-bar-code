@@ -3,3 +3,7 @@
 node_modules
 build
 .DS_Store
+.psc-ide-port
+.purs-repl
+.spago
+output
