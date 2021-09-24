@@ -2,7 +2,7 @@
   "name": "qr-and-barcode",
   "version": "0.1.0",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "devDependencies": {
     "@fitbit/sdk": "~4.3.2",
     "@fitbit/sdk-cli": "^1.7.3"
