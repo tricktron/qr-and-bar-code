@@ -26,5 +26,10 @@
   "scripts": {
     "build": "fitbit-build",
     "debug": "fitbit"
+  },
+  "dependencies": {
+    "@zxing/browser": "0.0.9",
+    "jsbarcode": "^3.11.5",
+    "jsqr": "^1.4.0"
   }
 }
