@@ -14,6 +14,8 @@
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
             nodejs-14_x
+            purescript
+            spago
           ];
         };
       });

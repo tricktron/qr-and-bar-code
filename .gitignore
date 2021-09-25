@@ -4,3 +4,7 @@ node_modules
 build
 .DS_Store
 coverage
+.psc-ide-port
+.purs-repl
+.spago
+output
