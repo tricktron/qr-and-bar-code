@@ -33,7 +33,7 @@ function toGrayscaleBuffer(imageBuffer, width, height) {
 exports.scanQrCodeImpl = left => right => qrcode => rgbaBuffer => width => height => {
     const code = jsQR(rgbaBuffer, width, height);
     if (code) {
-        return right(qrcode({ text: code.data, dataBuffer: code.binaryData }));
+        return right(qrcode(code.data));
     } else {
         return left("QR code could not be read");
     }

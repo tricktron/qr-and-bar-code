@@ -35,8 +35,7 @@ main = launchAff_ $ runSpec [consoleReporter] do
   describe "Given local qrcode png file" do
     it "then can extract qr code data" do
       Image img <- loadImageFromResources (SProxy :: SProxy "qr-code.png")
-      mockBuf <- liftEffect $ create 42
-      let expectedQrCode = Right $ QrCode { text: "http://www.google.com/", dataBuffer: mockBuf }
+      let expectedQrCode = Right $ QrCode "http://www.google.com/"
       let qrCode = scanQrCode img.rgbaPixels img.width img.height
       qrCode `shouldEqual` expectedQrCode
     it "then can convert QR data to base64 png string" do
