@@ -1,4 +1,5 @@
 {
     "extends": "../tsconfig.json",
-    "include": [ "../node_modules/fitbit-sdk-types/types/companion", "**/*.ts" ]
+    //"include": [ "../node_modules/fitbit-sdk-types/types/companion", "**/*.ts" ],
+    "compilerOptions": { "allowJs": true }
 }

@@ -13,13 +13,20 @@ to generate this file without the comments in this block.
 { name = "my-project"
 , dependencies =
   [ "aff"
+  , "aff-promise"
   , "console"
   , "effect"
+  , "either"
+  , "maybe"
   , "node-buffer"
   , "node-fs-aff"
+  , "node-process"
+  , "pathy"
   , "prelude"
   , "psci-support"
   , "spec"
+  , "strings"
+  , "transformers"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
