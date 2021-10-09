@@ -44,7 +44,7 @@ exports.scanBarcodeImpl = left => right => barcode => rgbaBuffer => width => hei
         const res = scanBarcode(rgbaBuffer, width, height);
         return right(barcode(res.text));
     } catch (err) {
-        return left(err.message);
+        return left("Barcode could not be read");
     }
 }
 

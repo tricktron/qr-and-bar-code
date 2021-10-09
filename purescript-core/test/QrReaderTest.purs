@@ -12,7 +12,7 @@ import Effect.Class (liftEffect)
 import ImageHelper (Image(..), decodeBufferToImage, loadImageFromResources)
 import Node.Buffer (create, fromString)
 import Node.Encoding (Encoding(..))
-import QrReader (Code(..), scanQrCode, scanBarcode, createBase64PNGQrCode)
+import QrReader (Code(..), createBase64PNGQrCode, scanBarcode, scanQrCode)
 import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.Console (consoleReporter)
@@ -52,6 +52,12 @@ main = launchAff_ $ runSpec [consoleReporter] do
       Image img <- loadImageFromResources (SProxy :: SProxy "no-code.png")
       let failedCode = scanQrCode img.rgbaPixels img.width img.height
       failedCode `shouldEqual` expectedFailedQrCode
+  describe "Given png file without barcode" do
+    it "then it handles exception correctly" do
+      let expectedFailedBarcode = Left "Barcode could not be read"
+      Image img <- loadImageFromResources (SProxy :: SProxy "no-code.png")
+      let failedCode = scanBarcode img.rgbaPixels img.width img.height
+      failedCode `shouldEqual` expectedFailedBarcode
 
 
 
