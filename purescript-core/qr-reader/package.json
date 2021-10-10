@@ -1,0 +1,11 @@
+{
+    "name": "qr-reader",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "./index.js",
+    "dependencies": {
+        "@zxing/library": "^0.18.6",
+        "jsqr": "^1.4.0",
+        "qrcode-generator": "^1.4.4"
+    }
+}
