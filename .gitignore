@@ -9,3 +9,4 @@ coverage
 .spago
 output
 .psci_modules
+.nyc_output

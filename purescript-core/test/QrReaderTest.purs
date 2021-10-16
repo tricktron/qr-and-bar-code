@@ -9,10 +9,10 @@ import Data.Symbol (SProxy(..))
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Effect.Class (liftEffect)
-import ImageHelper (Image(..), decodeBufferToImage, loadImageFromResources)
+import ImageHelper (decodeBufferToImage, loadImageFromResources, loadImageFromResourcesAsBase64ImageUri)
 import Node.Buffer (create, fromString)
 import Node.Encoding (Encoding(..))
-import QrReader (Code(..), createBase64PNGQrCode, scanBarcode, scanQrCode)
+import QrReader (Code(..), Image(..), createBase64PNGQrCode, scanBarcode, scanQrCodeEff)
 import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.Console (consoleReporter)
@@ -34,9 +34,9 @@ main = launchAff_ $ runSpec [consoleReporter] do
       ean13 `shouldEqual` expectedEan13
   describe "Given local qrcode png file" do
     it "then can extract qr code data" do
-      Image img <- loadImageFromResources (SProxy :: SProxy "qr-code.png")
+      base64ImageUri <- loadImageFromResourcesAsBase64ImageUri (SProxy :: SProxy "qr-code.png")
       let expectedQrCode = Right $ QrCode "http://www.google.com/"
-      let qrCode = scanQrCode img.rgbaPixels img.width img.height
+      qrCode <- liftEffect $ scanQrCodeEff base64ImageUri
       qrCode `shouldEqual` expectedQrCode
     it "then can convert QR data to base64 png string" do
       let base64PNGQrCodeImage = createBase64PNGQrCode "http://www.google.com/" 300
@@ -49,8 +49,8 @@ main = launchAff_ $ runSpec [consoleReporter] do
   describe "Given png file without QR code" do
     it "then it handles exception correctly" do
       let expectedFailedQrCode = Left "QR code could not be read"
-      Image img <- loadImageFromResources (SProxy :: SProxy "no-code.png")
-      let failedCode = scanQrCode img.rgbaPixels img.width img.height
+      base64ImageUri <- loadImageFromResourcesAsBase64ImageUri (SProxy :: SProxy "no-code.png")
+      failedCode <- liftEffect $ scanQrCodeEff base64ImageUri
       failedCode `shouldEqual` expectedFailedQrCode
   describe "Given png file without barcode" do
     it "then it handles exception correctly" do
@@ -58,6 +58,9 @@ main = launchAff_ $ runSpec [consoleReporter] do
       Image img <- loadImageFromResources (SProxy :: SProxy "no-code.png")
       let failedCode = scanBarcode img.rgbaPixels img.width img.height
       failedCode `shouldEqual` expectedFailedBarcode
-
-
-
+  describe "Given base64 png image uri string" do
+    it "then can convert it to png arraybuffer" do
+      let base64pngImageUri = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGMAAABjAQAAAACnQIM4AAAA5klEQVQ4jc3UsY3DMAwF0C+4UKkFBHgNd14pWsC6WyBaSR3XEJAFrE6FEIZ2ikuTUN2Fjf0KwST1YfBr4Yu1A4G9yzBcPqty3+xcSV40ZR/znEhO6wqtmEExhsQ9yEf+OnurYz7y4WXad5Kq1N3xVFTZY+ErpqrpjlttHuuUNDH1QHANUdPdTkyyYGlHUSXIGpiK0cU/1huekybpxeQjL1EVz7+tbyhO0770KGvD89wnSe22S2BVnXdbAk2s6cz1GS5VZ1ov8CPaVg9bhrRgAydV3GO+pQanSea72Om6dqPpf/9Lo3oAEESZH/MtbJUAAAAASUVORK5CYII="
+      let expectedQrCode = Right $ QrCode "http://www.google.com/"
+      qrCode <- liftEffect $ scanQrCodeEff base64pngImageUri
+      qrCode `shouldEqual` expectedQrCode

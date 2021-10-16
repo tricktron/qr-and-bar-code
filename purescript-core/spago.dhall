@@ -14,9 +14,12 @@ to generate this file without the comments in this block.
 , dependencies =
   [ "aff"
   , "aff-promise"
+  , "arraybuffer-types"
+  , "bifunctors"
   , "console"
   , "effect"
   , "either"
+  , "exceptions"
   , "maybe"
   , "node-buffer"
   , "node-fs-aff"

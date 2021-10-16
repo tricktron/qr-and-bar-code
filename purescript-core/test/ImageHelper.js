@@ -11,6 +11,14 @@ async function decodeBufferToImage(buffer) {
     }
 }
 
+async function decodeBinaryBufferToPNGBuffer(buffer) {
+    return await sharp(buffer).ensureAlpha().png().toBuffer();
+}
+
 exports.decodeBufferToImageImpl = buffer => () => {
     return decodeBufferToImage(buffer);
+}
+
+exports.decodeBinaryBufferToPNGBufferImpl = buffer => () => {
+    return decodeBinaryBufferToPNGBuffer(buffer);
 }
