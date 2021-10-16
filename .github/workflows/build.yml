@@ -1,0 +1,44 @@
+name: Build & Test
+on:
+  push:
+    branches: [ main, f-qr-code ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  ci:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-10.15, ubuntu-20.04]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix with Flakes Support and Haskell Nix Binary Cache
+        uses: cachix/install-nix-action@v14
+        with:
+          install_url: https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20210429_d15a196/install
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            substituters = https://hydra.iohk.io https://cache.nixos.org
+            trusted-public-keys = hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+            allowed-users = *
+
+      - name: Use Cachix to Pull and Push Binary Cache
+        uses: cachix/cachix-action@v10
+        with:
+          name: tricktron
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+      - name: Build and Test Purescript Library
+        run: |
+          nix develop -c npm install
+          cd purescript-core
+          nix develop .. -c spago test
