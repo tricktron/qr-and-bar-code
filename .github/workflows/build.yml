@@ -57,5 +57,6 @@ jobs:
 
       - name: Build Fitbit App
         run: |
+          nix develop -c npm cache verify
           nix develop -c npm install
           nix develop -c npx fitbit-build
