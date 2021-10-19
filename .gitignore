@@ -10,3 +10,6 @@ coverage
 output
 .psci_modules
 .nyc_output
+purescript-core/index.js.map
+purescript-core/index.js
+purescript-core/qr-reader-lib*.tgz

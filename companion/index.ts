@@ -2,7 +2,7 @@ import { outbox } from "file-transfer";
 import { Image } from "image";
 import { device } from "peer";
 import { settingsStorage } from "settings";
-import { scanQrCodeEff, createBase64PNGQrCode } from "../node_modules/qr-reader";
+import { scanQrCodeEff, createBase64PNGQrCode } from "qr-reader-lib";
 
 settingsStorage.setItem("screenWidth", device.screen.width.toString());
 settingsStorage.setItem("screenHeight", device.screen.height.toString());

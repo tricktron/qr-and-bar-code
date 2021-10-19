@@ -39,6 +39,6 @@ jobs:
 
       - name: Build and Test Purescript Library
         run: |
-          nix develop -c npm install
           cd purescript-core
+          nix develop .. -c npm install
           nix develop .. -c spago test

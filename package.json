@@ -59,6 +59,6 @@
     ]
   },
   "dependencies": {
-    "qr-reader": "file:./purescript-core/qr-reader"
+    "qr-reader-lib": "file:./purescript-core/qr-reader-lib-1.0.0.tgz"
   }
 }
