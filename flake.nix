@@ -16,7 +16,7 @@
             nodejs-14_x
             purescript
             spago
-          ];
+          ] ++ lib.optional stdenv.isLinux libsecret;
         };
       });
 }
