@@ -57,6 +57,6 @@ jobs:
 
       - name: Build Fitbit App
         run: |
-          nix develop -c npm cache clean --force
+          nix develop -c npm update qr-reader-lib
           nix develop -c npm install
           nix develop -c npx fitbit-build
