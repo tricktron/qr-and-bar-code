@@ -37,8 +37,24 @@ jobs:
           name: tricktron
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
-      - name: Build and Test Purescript Library
+      - name: Build & Test Purescript Library
         run: |
           cd purescript-core
           nix develop .. -c npm install
-          nix develop .. -c spago test
+          nix develop .. -c npx nyc --clean --reporter=lcov -x "**/.spago/**" -x "**/foreign.js" -e ".purs" spago test --purs-args "-g sourcemaps"
+
+      - name: Report Code Coverage
+        uses: romeovs/lcov-reporter-action@v0.2.21
+        with:
+          lcov-file: purescript-core/coverage/lcov.info
+
+      - name: Bundle & Pack Purescript Library
+        run: |
+          cd purescript-core
+          nix develop .. -c spago bundle-module -m QrReader -t index.js
+          nix develop .. -c npm pack
+
+      - name: Build Fitbit App
+        run: |
+          nix develop -c npm install
+          nix develop -c npx fitbit-build

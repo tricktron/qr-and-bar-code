@@ -12,6 +12,7 @@
         "upng": "tricktron/UPNG.js#master"
     },
     "devDependencies": {
+        "nyc": "^15.1.0",
         "sharp": "^0.29.1"
     }
 }
